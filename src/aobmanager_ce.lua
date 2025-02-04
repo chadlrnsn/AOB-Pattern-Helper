@@ -1,3 +1,10 @@
+--[[
+    AOB Pattern Helper
+    Author: chadlrnsn
+    Repository: https://github.com/chadlrnsn/AOB-Pattern-Helper
+    License: MIT
+]]
+
 -- Remove old menu item if it exists
 local mmTools = getMainForm().Menu.Items
 for i=0, mmTools.Count-1 do
@@ -15,9 +22,11 @@ AOBMenuItem.Caption = 'AOB Manager'
 local form = createForm(false)
 form.Caption = "AOB Manager"
 form.Width = 400
-form.Height = 180
+form.Height = 170
 form.BorderStyle = bsSizeable
 form.Position = poScreenCenter
+form.Constraints.MinWidth = 400
+form.Constraints.MinHeight = 170
 
 -- Create bytes input field
 local bytesEdit = createEdit(form)
@@ -46,18 +55,46 @@ saveButton.Top = 80
 saveButton.Left = 20
 saveButton.Anchors = '[akLeft,akTop]'
 
+-- Create author and repo buttons
+local authorButton = createButton(form)
+authorButton.Caption = "Author: chadlrnsn"
+authorButton.Width = 150
+authorButton.Height = 25
+authorButton.Top = saveButton.Top + saveButton.Height + 10
+authorButton.Left = saveButton.Left
+authorButton.Anchors = '[akLeft,akTop]'
+
+local repoButton = createButton(form)
+repoButton.Caption = "GitHub Repository"
+repoButton.Width = 150
+repoButton.Height = 25
+repoButton.Top = authorButton.Top
+repoButton.Left = authorButton.Left
+repoButton.Anchors = '[akLeft,akTop]'
+
 -- Create info labels
 local totalBytesLabel = createLabel(form)
 totalBytesLabel.Caption = "Total bytes: 0"
-totalBytesLabel.Left = 180
-totalBytesLabel.Top = 83
+totalBytesLabel.Left = saveButton.Left + saveButton.Width + 30
+totalBytesLabel.Top = saveButton.Top + 3
 totalBytesLabel.Width = 100
+totalBytesLabel.Anchors = '[akLeft,akTop]'
 
 local wildcardBytesLabel = createLabel(form)
 wildcardBytesLabel.Caption = "Wildcards: 0"
-wildcardBytesLabel.Left = 290
-wildcardBytesLabel.Top = 83
+wildcardBytesLabel.Left = totalBytesLabel.Left + totalBytesLabel.Width + 10
+wildcardBytesLabel.Top = totalBytesLabel.Top
 wildcardBytesLabel.Width = 100
+wildcardBytesLabel.Anchors = '[akLeft,akTop]'
+
+-- Create star label
+local starLabel = createLabel(form)
+starLabel.Caption = "Leave a star if you like this script ⭐"
+starLabel.Left = totalBytesLabel.Left + 30
+starLabel.Top = authorButton.Top + 3
+starLabel.Width = 200
+starLabel.Anchors = '[akLeft,akTop]'
+
 
 -- Function to count total bytes
 function countTotalBytes(byteString)
@@ -124,6 +161,15 @@ end
 -- Menu item click handler
 AOBMenuItem.OnClick = function()
     form.show()
+end
+
+-- Button click handlers for opening URLs
+authorButton.OnClick = function()
+    shellExecute('https://github.com/chadlrnsn')
+end
+
+repoButton.OnClick = function()
+    shellExecute('https://github.com/chadlrnsn/AOB-Pattern-Helper')
 end
 
 -- Add menu item to main menu
